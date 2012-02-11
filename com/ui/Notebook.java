@@ -1,3 +1,4 @@
+package com.ui;
 import java.awt.event.*;
 import java.io.*;
 
@@ -15,31 +16,31 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 	private final JTabbedPane tabbedText = new JTabbedPane();
 	
 	private final JMenuBar mainMenuBar = new JMenuBar();
-	private final JMenu fileMenu = new JMenu("æ–‡ä»¶");
-	private final JMenu editMenu = new JMenu("ç¼–è¾‘");
-	private final JMenu formatMenu = new JMenu("æ ¼å¼");
-	private final JMenu helpMenu = new JMenu("å¸®åŠ©");
-	private final JMenuItem newMenuItem = new JMenuItem("æ–°å»º");
-	private final JMenuItem openMenuItem = new JMenuItem("æ‰“å¼€");
-	private final JMenuItem saveMenuItem = new JMenuItem("ä¿å­˜");
-	private final JMenuItem closeMenuItem = new JMenuItem("å…³é—­");
-	private final JMenuItem exitMenuItem = new JMenuItem("é€€å‡º");
-	private final JMenuItem undoMenuItem = new JMenuItem("æ’¤æ¶ˆ");
-	private final JMenuItem redoMenuItem = new JMenuItem("é‡åš");
-	private final JMenuItem selectAllMenuItem = new JMenuItem("å…¨é€‰");
-	private final JMenuItem cutMenuItem = new JMenuItem("å‰ªåˆ‡");
-	private final JMenuItem copyMenuItem = new JMenuItem("å¤åˆ¶");
-	private final JMenuItem pasteMenuItem = new JMenuItem("ç²˜è´´");
-	private final JMenuItem findMenuItem = new JMenuItem("æŸ¥æ‰¾");
-	private final JCheckBoxMenuItem wrapMenuCheckBox = new JCheckBoxMenuItem("è‡ªåŠ¨æ¢è¡Œ");
-	private final JMenuItem aboutMenuItem = new JMenuItem("å…³äº");
+	private final JMenu fileMenu = new JMenu("ÎÄ¼ş");
+	private final JMenu editMenu = new JMenu("±à¼­");
+	private final JMenu formatMenu = new JMenu("¸ñÊ½");
+	private final JMenu helpMenu = new JMenu("°ïÖú");
+	private final JMenuItem newMenuItem = new JMenuItem("ĞÂ½¨");
+	private final JMenuItem openMenuItem = new JMenuItem("´ò¿ª");
+	private final JMenuItem saveMenuItem = new JMenuItem("±£´æ");
+	private final JMenuItem closeMenuItem = new JMenuItem("¹Ø±Õ");
+	private final JMenuItem exitMenuItem = new JMenuItem("ÍË³ö");
+	private final JMenuItem undoMenuItem = new JMenuItem("³·Ïû");
+	private final JMenuItem redoMenuItem = new JMenuItem("ÖØ×ö");
+	private final JMenuItem selectAllMenuItem = new JMenuItem("È«Ñ¡");
+	private final JMenuItem cutMenuItem = new JMenuItem("¼ôÇĞ");
+	private final JMenuItem copyMenuItem = new JMenuItem("¸´ÖÆ");
+	private final JMenuItem pasteMenuItem = new JMenuItem("Õ³Ìù");
+	private final JMenuItem findMenuItem = new JMenuItem("²éÕÒ");
+	private final JCheckBoxMenuItem wrapMenuCheckBox = new JCheckBoxMenuItem("×Ô¶¯»»ĞĞ");
+	private final JMenuItem aboutMenuItem = new JMenuItem("¹ØÓÚ");
 	
 	private final JPopupMenu mainPopMenu = new JPopupMenu();
-	private final JMenuItem closePopItem = new JMenuItem("å…³é—­");
-	private final JMenuItem selectAllPopItem = new JMenuItem("å…¨é€‰");
-	private final JMenuItem cutPopItem = new JMenuItem("å‰ªåˆ‡");
-	private final JMenuItem copyPopItem = new JMenuItem("å¤åˆ¶");
-	private final JMenuItem pastePopItem = new JMenuItem("ç²˜è´´");
+	private final JMenuItem closePopItem = new JMenuItem("¹Ø±Õ");
+	private final JMenuItem selectAllPopItem = new JMenuItem("È«Ñ¡");
+	private final JMenuItem cutPopItem = new JMenuItem("¼ôÇĞ");
+	private final JMenuItem copyPopItem = new JMenuItem("¸´ÖÆ");
+	private final JMenuItem pastePopItem = new JMenuItem("Õ³Ìù");
 	
 	private void createMenu() {
 		fileMenu.addMenuListener(this);
@@ -109,7 +110,7 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 	}
 	
 	public Notebook() {
-		super("è®°äº‹æœ¬");
+		super("¼ÇÊÂ±¾");
 		addWindowListener(this);
 		addWindowListener(this);
 		add(tabbedText);
@@ -131,7 +132,7 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 	}
 	
 	private void createText() {
-		createText("æ–°å»ºæ–‡æœ¬");
+		createText("ĞÂ½¨ÎÄ±¾");
 	}
 	
 	private void openText() {
@@ -144,7 +145,7 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 				in.close();
 			}
 			catch (final Exception exception) {
-				JOptionPane.showMessageDialog(this, "è¯»å–å¤±è´¥", "é”™è¯¯", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "¶ÁÈ¡Ê§°Ü", "´íÎó", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -153,7 +154,7 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 		final JFileChooser chooser = new JFileChooser();
 		if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 			if (chooser.getSelectedFile().exists()) {
-				if (JOptionPane.showConfirmDialog(this, "æ–‡ä»¶å­˜åœ¨ï¼Œæ˜¯å¦è¦†ç›–", "æç¤º", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
+				if (JOptionPane.showConfirmDialog(this, "ÎÄ¼ş´æÔÚ£¬ÊÇ·ñ¸²¸Ç", "ÌáÊ¾", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
 					return;
 				}
 			}
@@ -165,7 +166,7 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 				tabbedText.setTitleAt(tabbedText.getSelectedIndex(), chooser.getSelectedFile().getName());
 			}
 			catch (final Exception exception) {
-				JOptionPane.showMessageDialog(this, "ä¿å­˜å¤±è´¥", "é”™è¯¯", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "±£´æÊ§°Ü", "´íÎó", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -174,7 +175,7 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 		if (tabbedText.getSelectedIndex() == -1) {
 			return;
 		}
-		if (getSelectedText().isChanged() && JOptionPane.showConfirmDialog(this, "æ–‡æœ¬å·²ä¿®æ”¹ï¼Œæ˜¯å¦ä¿å­˜", "æç¤º", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+		if (getSelectedText().isChanged() && JOptionPane.showConfirmDialog(this, "ÎÄ±¾ÒÑĞŞ¸Ä£¬ÊÇ·ñ±£´æ", "ÌáÊ¾", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			saveText();
 		}
 		((JScrollPane)tabbedText.getSelectedComponent()).removeAll();
@@ -222,7 +223,7 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 			getSelectedText().setLineWrap(wrapMenuCheckBox.getState());
 		}
 		else if (e.getSource() == aboutMenuItem) {
-			JOptionPane.showMessageDialog(this, "ä½œè€…ï¼šé­é¹\næ¹˜æ½­å¤§å­¦å…´æ¹˜å­¦é™¢05è®¡ç®—æœº", "å…³äº", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "×÷Õß£ºÎºÅô\nÏæÌ¶´óÑ§ĞËÏæÑ§Ôº05¼ÆËã»ú", "¹ØÓÚ", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	
