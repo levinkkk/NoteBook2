@@ -8,6 +8,8 @@ import javax.swing.event.MenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import com.db.DbControler;
+
 import control.UndoableText;
 import dialog.FindDialog;
 
@@ -118,6 +120,12 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 		createMenu();
 		createText();
 		setVisible(true);
+		try {
+			DbControler db=new DbControler();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private UndoableText getSelectedText() {
