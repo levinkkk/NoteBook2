@@ -23,11 +23,11 @@ import javax.swing.event.DocumentListener;
 public class FindDialog extends JDialog {
 	private JTextArea text;
 	private JTextField findText;
-	private JButton findNext = new JButton("æŸ¥æ‰¾ä¸‹ä¸€ä¸ª");
-	private JButton cancel = new JButton("å–æ¶ˆ");
-	private JCheckBox upperLowerCase = new JCheckBox("åŒºåˆ†å¤§å°å†™");
-	private JRadioButton upButton = new JRadioButton("å‘ä¸Š");
-	private JRadioButton downButton = new JRadioButton("å‘ä¸‹");
+	private JButton findNext = new JButton("²éÕÒÏÂÒ»¸ö");
+	private JButton cancel = new JButton("È¡Ïû");
+	private JCheckBox upperLowerCase = new JCheckBox("Çø·Ö´óĞ¡Ğ´");
+	private JRadioButton upButton = new JRadioButton("ÏòÉÏ");
+	private JRadioButton downButton = new JRadioButton("ÏòÏÂ");
 	
 	private void makeControl(final Component comp, final GridBagLayout gridbag, final GridBagConstraints c) {
 		gridbag.setConstraints(comp, c);
@@ -35,7 +35,7 @@ public class FindDialog extends JDialog {
 	}
 	
 	public FindDialog(JFrame frame, JTextArea textArea) {
-		super(frame, "æŸ¥æ‰¾");
+		super(frame, "²éÕÒ");
 		text = textArea;
 		findText = new JTextField(textArea.getSelectedText() == null ? "" : textArea.getSelectedText());
 		
@@ -74,10 +74,10 @@ public class FindDialog extends JDialog {
 		c.fill = GridBagConstraints.BOTH;
 		
 		c.gridwidth = 3;
-		makeControl(new JLabel("æŸ¥æ‰¾å†…å®¹ï¼š"), gridbag, c);
+		makeControl(new JLabel("²éÕÒÄÚÈİ£º"), gridbag, c);
 		findText.setColumns(20);
 		makeControl(findText, gridbag, c);
-		c.gridwidth = GridBagConstraints.REMAINDER; //æ¢è¡Œ
+		c.gridwidth = GridBagConstraints.REMAINDER; //»»ĞĞ
 		makeControl(findNext, gridbag, c);
 		
 		c.gridwidth = 3;
@@ -90,7 +90,7 @@ public class FindDialog extends JDialog {
 		upDownGroup.add(downButton);
 		downButton.setSelected(true);
 		makeControl(upDownPanel, gridbag, c);
-		c.gridwidth = GridBagConstraints.REMAINDER; //æ¢è¡Œ
+		c.gridwidth = GridBagConstraints.REMAINDER; //»»ĞĞ
 		makeControl(cancel, gridbag, c);
 		
 		pack();
@@ -122,7 +122,7 @@ public class FindDialog extends JDialog {
 		}
 		
 		if (pos == -1) {
-			JOptionPane.showMessageDialog(super.getRootPane(), "æ²¡æœ‰æ‰¾åˆ° \"" + findString + "\"");
+			JOptionPane.showMessageDialog(super.getRootPane(), "Ã»ÓĞÕÒµ½ \"" + findString + "\"");
 		} else {
 			text.select(pos, pos + findString.length());
 		}
