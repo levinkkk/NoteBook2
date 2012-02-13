@@ -6,8 +6,10 @@ public class DbControler {
 		// TODO Auto-generated constructor stub
 		Class.forName("org.sqlite.JDBC");
 	    Connection conn =
-	      DriverManager.getConnection("jdbc:sqlite:asserts/databases/database.db");
+	    		DriverManager.getConnection("jdbc:sqlite:asserts/databases/database.db");
 	    Statement stat = conn.createStatement();
+	  
+	  
 //	    stat.executeUpdate("drop table if exists people;");
 //	    stat.executeUpdate("create table people (name, occupation);");
 //	    PreparedStatement prep = conn.prepareStatement(
