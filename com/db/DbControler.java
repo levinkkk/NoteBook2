@@ -33,6 +33,7 @@ public class DbControler {
 	    while (rs.next()) {
 	      System.out.println("Video = " + rs.getString("Video"));
 	      System.out.println("Cover = " + rs.getString("Cover"));
+	      
 	    }
 	    rs.close();
 	    conn.close();
