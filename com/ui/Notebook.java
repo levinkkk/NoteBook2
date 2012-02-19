@@ -1,4 +1,5 @@
 package com.ui;
+import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.io.*;
 
@@ -21,6 +22,7 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 	private final JMenu fileMenu = new JMenu("文件");
 	private final JMenu editMenu = new JMenu("编辑");
 	private final JMenu formatMenu = new JMenu("格式");
+	private final JMenu windowMenu = new JMenu("窗口");
 	private final JMenu helpMenu = new JMenu("帮助");
 	private final JMenuItem newMenuItem = new JMenuItem("新建");
 	private final JMenuItem openMenuItem = new JMenuItem("打开");
@@ -35,6 +37,8 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 	private final JMenuItem pasteMenuItem = new JMenuItem("粘贴");
 	private final JMenuItem findMenuItem = new JMenuItem("查找");
 	private final JCheckBoxMenuItem wrapMenuCheckBox = new JCheckBoxMenuItem("自动换行");
+	private final JMenuItem statusMenuItem = new JMenuItem("状态栏");
+	private final JMenuItem rowcountMenuItem = new JMenuItem("行号");
 	private final JMenuItem aboutMenuItem = new JMenuItem("关于");
 	
 	private final JPopupMenu mainPopMenu = new JPopupMenu();
@@ -44,10 +48,13 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 	private final JMenuItem copyPopItem = new JMenuItem("复制");
 	private final JMenuItem pastePopItem = new JMenuItem("粘贴");
 	
+	private JLabel statusLabel = new JLabel();
+	
 	private void createMenu() {
 		fileMenu.addMenuListener(this);
 		editMenu.addMenuListener(this);
 		formatMenu.addMenuListener(this);
+		windowMenu.addMenuListener(this);
 		mainPopMenu.addPopupMenuListener(this);
 		
 		newMenuItem.addActionListener(this);
@@ -66,6 +73,8 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 		
 		wrapMenuCheckBox.addActionListener(this);
 		
+		statusMenuItem.addActionListener(this);
+		rowcountMenuItem.addActionListener(this);
 		aboutMenuItem.addActionListener(this);
 		
 		closePopItem.addActionListener(this);
@@ -94,11 +103,14 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 		
 		formatMenu.add(wrapMenuCheckBox);
 		
+		windowMenu.add(statusMenuItem);
+		windowMenu.add(rowcountMenuItem);
 		helpMenu.add(aboutMenuItem);
 		
 		mainMenuBar.add(fileMenu);
 		mainMenuBar.add(editMenu);
 		mainMenuBar.add(formatMenu);
+		mainMenuBar.add(windowMenu);
 		mainMenuBar.add(helpMenu);
 		setJMenuBar(mainMenuBar);
 		
@@ -119,6 +131,9 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 		setSize(640, 480);
 		createMenu();
 		createText();
+		createStatusBar();
+		refreshData();
+		refreshUI();
 		setVisible(true);
 		try {
 			DbControler db=new DbControler();
@@ -128,21 +143,56 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 		}
 	}
 	
+
+
+	private void refreshUI() {
+		// TODO Auto-generated method stub
+		new Thread(){
+	        	public void run(){	        		
+	        		statusLabel.setText(" TotalLines: " + TotalLines + " CurrentLine: " + CurrentLine+ " Column: " + CurrentColumn);	        		
+	        	}
+		}.start();		
+		
+	}
+
+	private void refreshData() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private UndoableText getSelectedText() {
 		return ((UndoableText)((JScrollPane)tabbedText.getSelectedComponent()).getViewport().getView());
 	}
-	
+	private AdjustmentListener  scrollbarAdjustmentListener=new AdjustmentListener() {
+		
+		@Override
+		public void adjustmentValueChanged(AdjustmentEvent arg0) {
+			// TODO Auto-generated method stub
+			System.out.println("getValue="+ arg0.getValue()+"！ "); 
+		}
+	};
 	private void createText(String title) {
 		UndoableText txt = new UndoableText();
 		txt.setComponentPopupMenu(mainPopMenu);
-		tabbedText.addTab(title, new JScrollPane(txt));
+		JScrollPane newJScrollPane=new JScrollPane(txt);
+		JScrollBar   newbar=newJScrollPane.getVerticalScrollBar();   //   返回控制视口垂直视图位置的垂直滚动条
+		
+		newbar.addAdjustmentListener(scrollbarAdjustmentListener);
+		tabbedText.addTab(title,newJScrollPane );
 		tabbedText.setSelectedIndex(tabbedText.getTabCount() - 1);
 	}
 	
 	private void createText() {
 		createText("新建文本");
 	}
-	
+	private void createStatusBar() {
+		// TODO Auto-generated method stub
+		
+		statusLabel.setVisible(false);
+		statusLabel.setBorder(BorderFactory.createLoweredBevelBorder());
+		statusLabel.setText(" TotalLines: 1 Line: 1 Column: 1");
+		add(statusLabel, BorderLayout.SOUTH);
+	}
 	private void openText() {
 		final JFileChooser chooser = new JFileChooser();
 		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -227,14 +277,70 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 		else if (e.getSource() == findMenuItem) {
 			new FindDialog(this, getSelectedText());
 		}
+		else if (e.getSource() == statusMenuItem) {
+			if(IsDisplayedstatusbar)
+			{
+				RemoveStatusbar();
+			}
+			else
+			{
+				AddStatusbar();
+			}
+			refreshUI();
+		}
+		else if (e.getSource() == rowcountMenuItem) {
+			if(IsDisplayedrowcount)
+			{
+				RemoveRowcount();
+			}
+			else
+			{
+				AddRowcount();
+			}
+			refreshUI();
+		}
 		else if (e.getSource() == wrapMenuCheckBox) {
 			getSelectedText().setLineWrap(wrapMenuCheckBox.getState());
 		}
 		else if (e.getSource() == aboutMenuItem) {
-			JOptionPane.showMessageDialog(this, "作者：魏鹏\n湘潭大学兴湘学院05计算机", "关于", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "!!!", "关于", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	
+	/**
+	 * 不显示行号
+	 */
+	private void RemoveRowcount() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * 显示行号
+	 */
+	private void AddRowcount() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * 显示状态栏
+	 */
+	private void AddStatusbar() {
+		// TODO Auto-generated method stub
+		statusLabel.setVisible(true);
+		IsDisplayedstatusbar=true;
+	}
+	
+	/**
+	 * 不显示状态栏
+	 */
+	private void RemoveStatusbar() {
+		// TODO Auto-generated method stub
+		statusLabel.setVisible(false);
+		IsDisplayedstatusbar=false;
+	}
+
 	private void updateFileMenu() {
 		if (tabbedText.getSelectedIndex() == -1) {
 			newMenuItem.setEnabled(true);
@@ -350,4 +456,7 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 	public static void main(String[] args) {
 		new Notebook();
 	}
+	
+	private static boolean IsDisplayedstatusbar=false,IsDisplayedrowcount=false;
+	private static long TotalLines=1,CurrentLine=1,CurrentColumn=1;
 }
