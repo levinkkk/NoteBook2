@@ -1,9 +1,14 @@
 package com.ui;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.Panel;
 import java.awt.event.*;
 import java.io.*;
 
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.event.PopupMenuEvent;
@@ -49,6 +54,11 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 	private final JMenuItem pastePopItem = new JMenuItem("粘贴");
 	
 	private JLabel statusLabel = new JLabel();
+	private Container centerContainer=new Container();
+	private Panel leftContainer=new Panel();
+//	private Panel centerContainer=new Panel();
+	private JTextArea rowcountLabel = new JTextArea();
+	private JLabel rowcountLabel2 = new JLabel();
 	
 	private void createMenu() {
 		fileMenu.addMenuListener(this);
@@ -127,12 +137,25 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 		super("记事本");
 		addWindowListener(this);
 		addWindowListener(this);
+		
+//		leftContainer.setVisible(true);
+//		
+//		centerContainer.setVisible(true);
+//		
+//		leftContainer.setBounds(0, 0, 20, 480);
+//		centerContainer.setBounds(21, 0, 620, 480);	
+//		tabbedText.setBounds(20, 0,999,999);	
+////		setLayout(null);
+//		add(leftContainer,FlowLayout.LEFT);		
+//		add(centerContainer,FlowLayout.CENTER);	
+//		
+//		centerContainer.add(tabbedText,BorderLayout.WEST);
 		add(tabbedText);
 		setSize(640, 480);
 		createMenu();
 		createText();
 		createStatusBar();
-		refreshData();
+		createRowCount();
 		refreshUI();
 		setVisible(true);
 		try {
@@ -144,20 +167,25 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 	}
 	
 
-
+	private void refresh()
+	{
+		refreshData();
+		refreshUI();
+	}
 	private void refreshUI() {
 		// TODO Auto-generated method stub
-		new Thread(){
-	        	public void run(){	        		
-	        		statusLabel.setText(" TotalLines: " + TotalLines + " CurrentLine: " + CurrentLine+ " Column: " + CurrentColumn);	        		
-	        	}
-		}.start();		
+		 statusLabel.setText(" TotalLines: " + TotalLines + " CurrentLine: " + CurrentLine+ " Column: " + CurrentColumn);	        		
+	 	
 		
 	}
 
 	private void refreshData() {
 		// TODO Auto-generated method stub
-		
+		{
+		TotalLines= getSelectedText().getTotalLines();
+		CurrentLine=getSelectedText().getCurrentLine();
+		CurrentColumn=getSelectedText().getCurrentColumn();
+		}
 	}
 
 	private UndoableText getSelectedText() {
@@ -171,9 +199,89 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 			System.out.println("getValue="+ arg0.getValue()+"！ "); 
 		}
 	};
+	private FocusListener txtFocusListener=new FocusListener() {
+		
+		@Override
+		public void focusLost(FocusEvent arg0) {
+		
+			System.out.println("paramString="+ arg0.paramString()+"！ "); 
+		}
+		
+		@Override
+		public void focusGained(FocusEvent arg0) {
+			System.out.println("paramString="+ arg0.paramString()+"！ "); 
+			refresh();
+			
+		}
+	};
+	private KeyListener txtKeyListtener=new KeyListener() {
+		
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			switch(arg0.getKeyCode())
+			{
+			case 10:
+				refresh();
+				break;
+			default:
+				break;
+			}
+//			System.out.println("getKeyCode="+ arg0.getKeyCode()+"！ "); 
+//			System.out.println("getKeyChar="+ arg0.getKeyChar()+"！ "); 
+			
+		}
+	};
+	private MouseListener txtMouseListener=new MouseListener() {
+		
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			refresh();
+		}
+		
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			refresh();
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			refresh();
+		}
+	};
 	private void createText(String title) {
 		UndoableText txt = new UndoableText();
+		txt.addFocusListener(txtFocusListener);
 		txt.setComponentPopupMenu(mainPopMenu);
+		txt.addKeyListener(txtKeyListtener);
+		txt.addMouseListener(txtMouseListener);
 		JScrollPane newJScrollPane=new JScrollPane(txt);
 		JScrollBar   newbar=newJScrollPane.getVerticalScrollBar();   //   返回控制视口垂直视图位置的垂直滚动条
 		
@@ -192,6 +300,29 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 		statusLabel.setBorder(BorderFactory.createLoweredBevelBorder());
 		statusLabel.setText(" TotalLines: 1 Line: 1 Column: 1");
 		add(statusLabel, BorderLayout.SOUTH);
+	}
+	private void createRowCount() {
+		// TODO Auto-generated method stub
+		leftContainer.setVisible(true);
+		
+		add(leftContainer, BorderLayout.WEST);
+		leftContainer.setLayout(new FlowLayout());
+		
+		
+		rowcountLabel.setVisible(true);
+		
+		rowcountLabel.setBorder(BorderFactory.createLineBorder(Color.white));
+		rowcountLabel.setText("1"+"\n"+" 2"+"\n"+" 3");
+		
+		rowcountLabel2.setVisible(true);
+		rowcountLabel2.setBorder(BorderFactory.createLineBorder(Color.white));
+		rowcountLabel2.setText("33"+"\n"+" 2"+"\n"+" 3");
+//		rowcountLabel.setHorizontalTextPosition(0);
+//		rowcountLabel.setVerticalTextPosition(0);
+//		rowcountLabel.setVerticalAlignment(0);
+		
+		leftContainer.add(rowcountLabel);
+		leftContainer.add(rowcountLabel2);
 	}
 	private void openText() {
 		final JFileChooser chooser = new JFileChooser();
@@ -297,7 +428,7 @@ public class Notebook extends JFrame implements WindowListener, ActionListener, 
 			{
 				AddRowcount();
 			}
-			refreshUI();
+			refresh();
 		}
 		else if (e.getSource() == wrapMenuCheckBox) {
 			getSelectedText().setLineWrap(wrapMenuCheckBox.getState());

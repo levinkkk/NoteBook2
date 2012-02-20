@@ -22,14 +22,14 @@ public class UndoableText extends JTextArea implements UndoableEdit, UndoableEdi
 	public void undoableEditHappened(UndoableEditEvent e) {
 		um.undoableEditHappened(e);
 	}
-	public long getTatalLines()
+	public long getTotalLines()
 	{	
 		return  getDocument().getDefaultRootElement().getElementCount();
 	}
 	public long getCurrentLine()
 	{
 
-		return getDocument().getDefaultRootElement().getElementIndex(getCaretPosition());
+		return getDocument().getDefaultRootElement().getElementIndex(getCaretPosition())+1;
 
 //		Element lineElement = baseElement.getElement(line);
 //
@@ -37,7 +37,8 @@ public class UndoableText extends JTextArea implements UndoableEdit, UndoableEdi
 	}
 	public long getCurrentColumn()
 	{
-		return 0;
+		//return getCaretPosition()- getDocument().getDefaultRootElement().getElement((int)getCurrentLine()).getStartOffset()-1;
+	    return 1;
 	}
 	public boolean addEdit(UndoableEdit anEdit) {
 		return um.addEdit(anEdit);
